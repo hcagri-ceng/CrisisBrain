@@ -7,7 +7,7 @@ type WeatherherDetector struct {
 	windSpeed     float64
 }
 
-func NewWeatherherDetector(precipitation, windSpeed float64) *WeatherherDetector {
+func NewWeatherDetector(precipitation, windSpeed float64) *WeatherherDetector {
 	return &WeatherherDetector{
 		precipitation: precipitation,
 		windSpeed:     windSpeed,

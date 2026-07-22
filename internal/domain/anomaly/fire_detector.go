@@ -7,7 +7,7 @@ type FireDetector struct {
 	brightness         float64
 }
 
-func NewFiredetector(fireRadiativePower, brightness float64) *FireDetector {
+func NewFireDetector(fireRadiativePower, brightness float64) *FireDetector {
 	return &FireDetector{
 		fireRadiativePower: fireRadiativePower,
 		brightness:         brightness,
