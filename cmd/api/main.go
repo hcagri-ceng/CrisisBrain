@@ -47,7 +47,7 @@ func main() {
 	anomalyRepo := postgres.NewAnomalyRepository(pool)
 	anomalyService := anomaly.NewAnomalyService(anomalyRepo)
 
-	earthquakeDetector := anomaly.NewEarthquakeDetector(5.0, 10.0)
+	earthquakeDetector := anomaly.NewEarthquakeDetector(2.0, 10.0)
 	fireDetector := anomaly.NewFireDetector(100.0, 50.0)
 	weatherDetector := anomaly.NewWeatherDetector(20.0, 15.0)
 	fmt.Println(anomalyService, earthquakeDetector, fireDetector, weatherDetector)
