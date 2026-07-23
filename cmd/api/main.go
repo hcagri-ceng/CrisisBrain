@@ -47,7 +47,7 @@ func main() {
 	anomalyRepo := postgres.NewAnomalyRepository(pool)
 	anomalyService := anomaly.NewAnomalyService(anomalyRepo)
 
-	earthquakeDetector := anomaly.NewEarthquakeDetector(2.0, 10.0)
+	earthquakeDetector := anomaly.NewEarthquakeDetector(1.0, 1000.0)
 	fireDetector := anomaly.NewFireDetector(100.0, 50.0)
 	weatherDetector := anomaly.NewWeatherDetector(20.0, 15.0)
 	fmt.Println(anomalyService, earthquakeDetector, fireDetector, weatherDetector)
@@ -59,6 +59,12 @@ func main() {
 	}
 	kandilliWorker := worker.NewKandilliWorker(anomalyService, earthquakeDetector, kd)
 	go kandilliWorker.Start()
+	nk := os.Getenv("NASA_FIRMS_API_KEY")
+	if nk == "" {
+		log.Fatalf("NASA_FIRMS_API_KEY ortam değişkeni bulunamadı!")
+	}
+	nasaWorker := worker.NewNasaWorker(anomalyService, fireDetector, nk)
+	go nasaWorker.Start()
 
 	select {}
 }
