@@ -3,6 +3,7 @@ package main
 import (
 	"CrisisBrain/internal/domain/anomaly"
 	"CrisisBrain/internal/repository/postgres"
+	"CrisisBrain/internal/worker"
 	"context"
 	"fmt"
 	"log"
@@ -14,7 +15,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load("../../.env")
+	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
@@ -51,4 +52,13 @@ func main() {
 	weatherDetector := anomaly.NewWeatherDetector(20.0, 15.0)
 	fmt.Println(anomalyService, earthquakeDetector, fireDetector, weatherDetector)
 
+	//
+	kd := os.Getenv("KANDILLI_API_URL")
+	if kd == "" {
+		log.Fatalf("KANDILLI_API_URL ortam değişkeni bulunamadı!")
+	}
+	kandilliWorker := worker.NewKandilliWorker(anomalyService, earthquakeDetector, kd)
+	go kandilliWorker.Start()
+
+	select {}
 }
